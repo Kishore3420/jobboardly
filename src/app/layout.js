@@ -1,4 +1,4 @@
-import './globals.css';
+import '@/styles/globals.css';
 import { ApplicationProvider } from '@/contexts/ApplicationContext';
 import Navbar from '@/components/Navbar';
 
