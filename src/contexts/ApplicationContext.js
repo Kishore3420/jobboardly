@@ -6,6 +6,14 @@ const ApplicationContext = createContext();
 export function ApplicationProvider({ children }) {
 	const [appliedJobs, setAppliedJobs] = useState([]);
 
+	//get applied jobs from localStorage if available
+	const storedJobs = JSON.parse(localStorage.getItem('appliedJobs')) || [];
+	if (storedJobs.length > 0) {
+		setAppliedJobs(storedJobs);
+	}
+	// Save applied jobs to localStorage whenever they change
+	localStorage.setItem('appliedJobs', JSON.stringify(appliedJobs));
+
 	const applyToJob = (jobId) => {
 		if (!appliedJobs.includes(jobId)) {
 			setAppliedJobs((prev) => [...prev, jobId]);
