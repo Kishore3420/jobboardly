@@ -1,18 +1,11 @@
 'use client';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 const ApplicationContext = createContext();
 
 export function ApplicationProvider({ children }) {
-	const [appliedJobs, setAppliedJobs] = useState([]);
-
-	//get applied jobs from localStorage if available
-	const storedJobs = JSON.parse(localStorage.getItem('appliedJobs')) || [];
-	if (storedJobs.length > 0) {
-		setAppliedJobs(storedJobs);
-	}
-	// Save applied jobs to localStorage whenever they change
-	localStorage.setItem('appliedJobs', JSON.stringify(appliedJobs));
+	const [appliedJobs, setAppliedJobs, isLoaded] = useLocalStorage('appliedJobs', []);
 
 	const applyToJob = (jobId) => {
 		if (!appliedJobs.includes(jobId)) {
@@ -35,6 +28,7 @@ export function ApplicationProvider({ children }) {
 				applyToJob,
 				isJobApplied,
 				getAppliedJobsCount,
+				isLoaded,
 			}}
 		>
 			{children}
