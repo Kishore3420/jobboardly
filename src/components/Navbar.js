@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useApplication } from '../contexts/ApplicationContext';
 
 const Navbar = () => {
-	const { appliedJobsCount } = useApplication();
-
+	const { appliedJobs } = useApplication();
+	const appliedJobsCount = appliedJobs.length;
 	return (
 		<nav className='bg-blue-600 text-white shadow-lg'>
 			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
