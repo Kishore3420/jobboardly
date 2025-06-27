@@ -23,14 +23,14 @@ export async function generateMetadata({ params }) {
 		};
 	}
 
-	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://job-boardly.vercel.app/';
+	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jobboardly.vercel.app/';
 	const jobUrl = `${siteUrl}/jobs/${job.id}`;
 
 	return {
-		title: `${job.title} at ${job.company} | Job Portal`,
+		title: `${job.title} at ${job.company}`,
 		description: `${job.title} position at ${job.company} in ${job.location}. ${job.description.substring(
 			0,
-			150
+			100
 		)}...`,
 		keywords: [job.title, job.company, job.location, ...job.skills],
 		authors: [{ name: 'Job Portal' }],

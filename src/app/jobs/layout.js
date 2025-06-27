@@ -1,8 +1,8 @@
 // app/jobs/layout.js
 export const metadata = {
 	title: {
-		template: '%s | Job Portal',
-		default: 'Jobs | Job Portal',
+		template: '%s | JobBoardly',
+		default: 'Jobs | JobBoardly',
 	},
 	description: 'Find your dream job with our comprehensive job listings.',
 };

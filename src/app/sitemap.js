@@ -2,7 +2,7 @@
 import { jobs } from '@/data/jobs';
 
 export default function sitemap() {
-	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://job-boardly.vercel.app/';
+	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jobboardly.vercel.app/';
 
 	const staticPages = [
 		{

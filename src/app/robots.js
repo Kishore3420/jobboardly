@@ -1,6 +1,6 @@
 // app/robots.js
 export default function robots() {
-	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://job-boardly.vercel.app/';
+	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jobboardly.vercel.app/';
 
 	return {
 		rules: {
