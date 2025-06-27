@@ -1,0 +1,67 @@
+export const jobs = [
+	{
+		id: 1,
+		title: 'Frontend Developer',
+		company: 'InnovateTech',
+		location: 'Remote',
+		description:
+			'We are looking for a skilled Frontend Developer to join our team. You will be responsible for building the client-side of our web applications using modern frameworks and tools. Join us in creating exceptional user experiences that delight our customers.',
+		ai_match_score: 95,
+		salary: '$80,000 - $120,000',
+		type: 'Full-time',
+		posted: '2 days ago',
+		skills: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js'],
+	},
+	{
+		id: 2,
+		title: 'Full Stack Engineer',
+		company: 'DataSolutions',
+		location: 'New York, NY',
+		description:
+			'Seeking a Full Stack Engineer to design, develop, and maintain our platform. Experience with Node.js and React is a must. You will work on both frontend and backend systems, ensuring seamless integration and optimal performance.',
+		ai_match_score: 88,
+		salary: '$90,000 - $140,000',
+		type: 'Full-time',
+		posted: '1 week ago',
+		skills: ['React', 'Node.js', 'PostgreSQL', 'AWS'],
+	},
+	{
+		id: 3,
+		title: 'React Native Developer',
+		company: 'MobileFirst',
+		location: 'San Francisco, CA',
+		description:
+			'Join our mobile team to build cross-platform applications using React Native. You will work on new features and improve existing ones while collaborating with designers and backend engineers to deliver amazing mobile experiences.',
+		ai_match_score: 91,
+		salary: '$95,000 - $135,000',
+		type: 'Full-time',
+		posted: '3 days ago',
+		skills: ['React Native', 'JavaScript', 'iOS', 'Android'],
+	},
+	{
+		id: 4,
+		title: 'UI/UX Designer',
+		company: 'CreativeMinds',
+		location: 'Remote',
+		description:
+			'We need a talented UI/UX Designer to create amazing user experiences. A strong portfolio of successful projects is required. You will be responsible for the entire design process from research to final implementation.',
+		ai_match_score: 76,
+		salary: '$70,000 - $100,000',
+		type: 'Full-time',
+		posted: '5 days ago',
+		skills: ['Figma', 'Sketch', 'Prototyping', 'User Research'],
+	},
+	{
+		id: 5,
+		title: 'Backend Developer',
+		company: 'ServerTech',
+		location: 'Austin, TX',
+		description:
+			'Looking for an experienced Backend Developer to build and maintain our server-side applications. You will work with databases, APIs, and cloud services to ensure our applications run smoothly and efficiently.',
+		ai_match_score: 82,
+		salary: '$85,000 - $125,000',
+		type: 'Full-time',
+		posted: '1 day ago',
+		skills: ['Python', 'Django', 'PostgreSQL', 'Docker'],
+	},
+];
