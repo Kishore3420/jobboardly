@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { HiOutlineChevronRight, HiOutlineSun, HiOutlineLightningBolt, HiOutlineCheck } from 'react-icons/hi';
 
 export default function HomePage() {
 	return (
@@ -22,33 +23,14 @@ export default function HomePage() {
 					<div className='animate-slide-up'>
 						<Link href='/jobs' className='btn-primary text-lg px-8 py-4 inline-flex items-center space-x-2'>
 							<span>Explore Jobs</span>
-							<svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth={2}
-									d='M13 7l5 5m0 0l-5 5m5-5H6'
-								/>
-							</svg>
+							<HiOutlineChevronRight className='w-5 h-5' />
 						</Link>
 					</div>
 
 					<div className='mt-20 grid grid-cols-1 md:grid-cols-3 gap-8'>
 						<div className='text-center animate-slide-up' style={{ animationDelay: '0.1s' }}>
 							<div className='w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4'>
-								<svg
-									className='w-8 h-8 text-blue-600'
-									fill='none'
-									stroke='currentColor'
-									viewBox='0 0 24 24'
-								>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										strokeWidth={2}
-										d='M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z'
-									/>
-								</svg>
+								<HiOutlineSun className='w-8 h-8 text-blue-600' />
 							</div>
 							<h3 className='text-xl font-semibold text-gray-900 mb-2'>AI-Powered Matching</h3>
 							<p className='text-gray-600'>
@@ -58,19 +40,7 @@ export default function HomePage() {
 
 						<div className='text-center animate-slide-up' style={{ animationDelay: '0.2s' }}>
 							<div className='w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4'>
-								<svg
-									className='w-8 h-8 text-purple-600'
-									fill='none'
-									stroke='currentColor'
-									viewBox='0 0 24 24'
-								>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										strokeWidth={2}
-										d='M13 10V3L4 14h7v7l9-11h-7z'
-									/>
-								</svg>
+								<HiOutlineLightningBolt className='w-8 h-8 text-purple-600' />
 							</div>
 							<h3 className='text-xl font-semibold text-gray-900 mb-2'>Instant Applications</h3>
 							<p className='text-gray-600'>
@@ -80,19 +50,7 @@ export default function HomePage() {
 
 						<div className='text-center animate-slide-up' style={{ animationDelay: '0.3s' }}>
 							<div className='w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4'>
-								<svg
-									className='w-8 h-8 text-emerald-600'
-									fill='none'
-									stroke='currentColor'
-									viewBox='0 0 24 24'
-								>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										strokeWidth={2}
-										d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z'
-									/>
-								</svg>
+								<HiOutlineCheck className='w-8 h-8 text-emerald-600' />
 							</div>
 							<h3 className='text-xl font-semibold text-gray-900 mb-2'>Quality Opportunities</h3>
 							<p className='text-gray-600'>
