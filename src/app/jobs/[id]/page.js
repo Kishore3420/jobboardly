@@ -1,143 +1,154 @@
-'use client';
-import { useParams, useRouter } from 'next/navigation';
+// app/jobs/[id]/page.js
+import { notFound } from 'next/navigation';
 import { jobs } from '@/data/jobs';
-import { useApplication } from '@/contexts/ApplicationContext';
-import {
-	HiOutlineOfficeBuilding,
-	HiOutlineLocationMarker,
-	HiOutlineClock,
-	HiOutlineCheck,
-	HiOutlinePlus,
-} from 'react-icons/hi';
+import JobDetailClient from './JobDetailClient';
 
-export default function JobDetailPage() {
-	const params = useParams();
-	const router = useRouter();
-	const { applyToJob, isJobApplied } = useApplication();
+export async function generateStaticParams() {
+	console.log('🏗️ Pre-generating', jobs.length, 'job pages...');
 
-	const job = jobs.find((j) => j.id === parseInt(params.id));
+	return jobs.map((job) => ({
+		id: job.id.toString(),
+	}));
+}
+
+export async function generateMetadata({ params }) {
+	const resolvedParams = await params;
+	const jobId = parseInt(resolvedParams.id);
+	const job = jobs.find((j) => j.id === jobId);
 
 	if (!job) {
-		return (
-			<div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center'>
-				<h1 className='text-2xl font-bold text-gray-900 mb-4'>Job Not Found</h1>
-				<button onClick={() => router.back()} className='btn-secondary'>
-					Go Back
-				</button>
-			</div>
-		);
+		return {
+			title: 'Job Not Found',
+			description: 'The requested job could not be found.',
+		};
 	}
 
-	const handleApply = () => {
-		applyToJob(job.id);
+	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://job-boardly.vercel.app/';
+	const jobUrl = `${siteUrl}/jobs/${job.id}`;
+
+	return {
+		title: `${job.title} at ${job.company} | Job Portal`,
+		description: `${job.title} position at ${job.company} in ${job.location}. ${job.description.substring(
+			0,
+			150
+		)}...`,
+		keywords: [job.title, job.company, job.location, ...job.skills],
+		authors: [{ name: 'Job Portal' }],
+
+		openGraph: {
+			title: `${job.title} at ${job.company}`,
+			description: `${job.title} position at ${job.company} in ${job.location}. Salary: ${job.salary}. Apply now!`,
+			url: jobUrl,
+			siteName: 'Job Portal',
+			locale: 'en_US',
+			type: 'website',
+		},
+
+		twitter: {
+			card: 'summary_large_image',
+			title: `${job.title} at ${job.company}`,
+			description: `${job.title} position at ${job.company} in ${job.location}. Salary: ${job.salary}. Apply now!`,
+		},
+
+		robots: {
+			index: true,
+			follow: true,
+			googleBot: {
+				index: true,
+				follow: true,
+			},
+		},
+
+		alternates: {
+			canonical: jobUrl,
+		},
+	};
+}
+
+export default async function JobDetailPage({ params }) {
+	const resolvedParams = await params;
+	const jobId = parseInt(resolvedParams.id);
+	const job = jobs.find((j) => j.id === jobId);
+
+	if (!job) {
+		notFound();
+	}
+
+	const formatDateForSchema = (dateString) => {
+		if (!dateString) return new Date().toISOString();
+
+		const date = new Date(dateString);
+
+		if (isNaN(date.getTime())) {
+			const now = new Date();
+			if (dateString.includes('day')) {
+				const days = parseInt(dateString.match(/\d+/)?.[0] || 0);
+				now.setDate(now.getDate() - days);
+				return now.toISOString();
+			} else if (dateString.includes('week')) {
+				const weeks = parseInt(dateString.match(/\d+/)?.[0] || 0);
+				now.setDate(now.getDate() - weeks * 7);
+				return now.toISOString();
+			} else if (dateString.includes('month')) {
+				const months = parseInt(dateString.match(/\d+/)?.[0] || 0);
+				now.setMonth(now.getMonth() - months);
+				return now.toISOString();
+			}
+			return new Date().toISOString();
+		}
+
+		return date.toISOString();
 	};
 
-	const getMatchScoreColor = (score) => {
-		if (score >= 90) return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-		if (score >= 80) return 'bg-amber-100 text-amber-800 border-amber-200';
-		return 'bg-blue-100 text-blue-800 border-blue-200';
+	const structuredData = {
+		'@context': 'https://schema.org/',
+		'@type': 'JobPosting',
+		title: job.title,
+		description: job.description,
+		identifier: {
+			'@type': 'PropertyValue',
+			name: job.company,
+			value: job.id.toString(),
+		},
+		hiringOrganization: {
+			'@type': 'Organization',
+			name: job.company,
+		},
+		jobLocation: {
+			'@type': 'Place',
+			address: {
+				'@type': 'PostalAddress',
+				addressLocality: job.location,
+			},
+		},
+		baseSalary: {
+			'@type': 'MonetaryAmount',
+			currency: 'USD',
+			value: {
+				'@type': 'QuantitativeValue',
+				value: job.salary?.replace(/[^\d]/g, '') || '0',
+			},
+		},
+		employmentType: job.type?.toUpperCase() || 'FULL_TIME',
+		datePosted: formatDateForSchema(job.posted),
+		skills: job.skills || [],
+		workHours: job.type === 'Full-time' ? '40 hours per week' : undefined,
 	};
-
-	const applied = isJobApplied(job.id);
 
 	return (
-		<div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12'>
-			<div className='bg-white rounded-2xl shadow-xl overflow-hidden'>
-				{/* Header Section */}
-				<div className='bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-12 text-white'>
-					<div className='flex items-start justify-between'>
-						<div className='flex-1'>
-							<h1 className='text-3xl md:text-4xl font-bold mb-4'>{job.title}</h1>
-							<div className='flex flex-wrap items-center gap-6 text-blue-100 mb-6'>
-								<div className='flex items-center space-x-2'>
-									<HiOutlineOfficeBuilding className='w-5 h-5' />
-									<span className='font-semibold text-lg'>{job.company}</span>
-								</div>
-								<div className='flex items-center space-x-2'>
-									<HiOutlineLocationMarker className='w-5 h-5' />
-									<span className='text-lg'>{job.location}</span>
-								</div>
-								<div className='flex items-center space-x-2'>
-									<HiOutlineClock className='w-5 h-5' />
-									<span className='text-lg'>{job.posted}</span>
-								</div>
-							</div>
-						</div>
+		<>
+			{/* Structured Data Script */}
+			<script
+				type='application/ld+json'
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(structuredData),
+				}}
+			/>
 
-						<div className={`px-4 py-2 rounded-full border ${getMatchScoreColor(job.ai_match_score)}`}>
-							<span className='font-bold'>{job.ai_match_score}% Match</span>
-						</div>
-					</div>
-				</div>
-
-				{/* Main Content */}
-				<div className='p-8'>
-					<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-						<div className='md:col-span-2'>
-							<div className='mb-8'>
-								<h2 className='text-2xl font-semibold text-gray-900 mb-4'>Job Description</h2>
-								<div className='prose max-w-none text-gray-700'>
-									<p>{job.description}</p>
-								</div>
-							</div>
-
-							<div className='mb-8'>
-								<h2 className='text-2xl font-semibold text-gray-900 mb-4'>Requirements</h2>
-								<ul className='space-y-3 text-gray-700'>
-									{job.skills.map((skill, index) => (
-										<li key={index} className='flex items-start'>
-											<HiOutlineCheck className='w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0' />
-											<span>{skill}</span>
-										</li>
-									))}
-								</ul>
-							</div>
-						</div>
-
-						<div className='space-y-6'>
-							<div className='bg-gray-50 rounded-xl p-6'>
-								<h3 className='text-lg font-semibold text-gray-900 mb-4'>Job Overview</h3>
-								<div className='space-y-4'>
-									<div>
-										<span className='block text-sm text-gray-500'>Salary</span>
-										<span className='font-medium text-gray-900'>{job.salary}</span>
-									</div>
-									<div>
-										<span className='block text-sm text-gray-500'>Job Type</span>
-										<span className='font-medium text-gray-900'>{job.type}</span>
-									</div>
-									<div>
-										<span className='block text-sm text-gray-500'>Location</span>
-										<span className='font-medium text-gray-900'>{job.location}</span>
-									</div>
-								</div>
-							</div>
-
-							<button
-								onClick={handleApply}
-								disabled={applied}
-								className={`w-full ${applied ? 'btn-disabled' : 'btn-primary'}`}
-							>
-								{applied ? (
-									<div className='flex items-center justify-center space-x-2'>
-										<HiOutlineCheck className='w-5 h-5' />
-										<span>Applied</span>
-									</div>
-								) : (
-									<div className='flex items-center justify-center space-x-2'>
-										<HiOutlinePlus className='w-5 h-5' />
-										<span>Apply Now</span>
-									</div>
-								)}
-							</button>
-
-							<button onClick={() => router.back()} className='btn-secondary w-full'>
-								Back to Jobs
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+			{/* Client Component for Interactive Features */}
+			<JobDetailClient job={job} />
+		</>
 	);
 }
+export const dynamic = 'force-static';
+export const revalidate = 86400;

@@ -3,7 +3,6 @@ function useLocalStorage(key, initialValue) {
 	const [storedValue, setStoredValue] = useState(initialValue);
 	const [isLoaded, setIsLoaded] = useState(false);
 
-	// Load value from localStorage on mount
 	useEffect(() => {
 		try {
 			if (typeof window !== 'undefined' && window.localStorage) {
@@ -19,7 +18,6 @@ function useLocalStorage(key, initialValue) {
 		}
 	}, [key]);
 
-	// Update localStorage when value changes
 	useEffect(() => {
 		if (isLoaded) {
 			try {
