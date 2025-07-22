@@ -1,7 +1,24 @@
-import { jobs } from '@/data/jobs';
+// import { jobs } from '@/data/jobs';
+"use client";
 import JobCard from '@/components/JobCard';
+import {fetchAllJobs} from '@/lib/api';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function JobsPage() {
+	const [jobs, setJobs] = useState([]);
+	useEffect(() => {
+		const fetchJobs = async () => {
+			try {
+				const jobsData = await fetchAllJobs();
+				setJobs(jobsData);
+			} catch (error) {
+				console.error('Failed to fetch jobs:', error);
+			}
+		};
+
+		fetchJobs();
+	}, []);
 	return (
 		<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12'>
 			<div className='text-center mb-12'>

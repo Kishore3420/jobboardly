@@ -14,6 +14,8 @@ export default function JobCard({ job }) {
 		return 'Potential Match';
 	};
 
+	
+
 	return (
 		<Link href={`/jobs/${job.id}`}>
 			<div className='card p-6 cursor-pointer group'>
